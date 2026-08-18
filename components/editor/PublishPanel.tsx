@@ -35,6 +35,7 @@ export function PublishPanel({
   content,
   category,
   tags,
+  coverImage,
   excerpt,
   metaTitle,
   metaDesc,

@@ -14,7 +14,7 @@ export interface Article {
   slug: string
   subtitle?: string
   excerpt?: string
-  content: string
+  content?: string
   category: Category
   author: Author
   publishedAt: string

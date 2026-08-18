@@ -5,14 +5,14 @@ import Head from 'next/head'
 
 interface SEOHeadProps {
   title: string
-  description: string
+  description?: string
   image?: string
   url?: string
   article?: Article
   jsonLd?: Record<string, unknown>
 }
 
-export function SEOHead({ title, description, image, url, article, jsonLd }: SEOHeadProps) {
+export function SEOHead({ title, description = 'NewsDesk editorial platform', image, url, article, jsonLd }: SEOHeadProps) {
   const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://newsdesk.com'
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl
   const ogImage = image || `${siteUrl}/og-default.png`

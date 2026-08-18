@@ -3,7 +3,7 @@ import { CategoryFeed } from '@/components/public/CategoryFeed'
 import { SEOHead } from '@/components/shared/SEOHead'
 
 interface CategoryPageProps {
-  params: { category: string }
+  params: Promise<{ category: string }>
 }
 
 const categories: Category[] = ['Politics', 'Tech', 'Culture', 'Business', 'Science', 'Opinion']
@@ -60,7 +60,8 @@ const categoryArticles: Record<string, any[]> = {
   opinion: [],
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage(props: CategoryPageProps) {
+  const params = await props.params
   const categorySlug = params.category.toLowerCase()
   const category = categories.find(c => c.toLowerCase() === categorySlug)
 
@@ -81,7 +82,8 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   )
 }
 
-export function generateMetadata({ params }: CategoryPageProps) {
+export async function generateMetadata(props: CategoryPageProps) {
+  const params = await props.params
   const categorySlug = params.category.toLowerCase()
   const category = categories.find(c => c.toLowerCase() === categorySlug)
 

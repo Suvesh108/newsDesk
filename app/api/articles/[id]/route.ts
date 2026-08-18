@@ -21,11 +21,12 @@ const updateArticleSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params
     const article = await prisma.article.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { author: { select: { id: true, name: true, image: true, username: true, bio: true } } },
     })
 
@@ -42,9 +43,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params
     const session = await getServerSession(authOptions)
     if (!session?.user?.email) {
       return NextResponse.json({ data: null, error: 'Unauthorized' }, { status: 401 })
@@ -54,7 +56,7 @@ export async function PUT(
     const validated = updateArticleSchema.parse(body)
 
     const article = await prisma.article.update({
-      where: { id: params.id },
+      where: { id },
       data: validated,
     })
 
@@ -70,15 +72,16 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params
     const session = await getServerSession(authOptions)
     if (!session?.user?.email) {
       return NextResponse.json({ data: null, error: 'Unauthorized' }, { status: 401 })
     }
 
-    await prisma.article.delete({ where: { id: params.id } })
+    await prisma.article.delete({ where: { id } })
 
     return NextResponse.json({ data: { deleted: true }, error: null })
   } catch (error) {

@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
         tags: enriched.tags,
         excerpt: enriched.excerpt,
         readTime: enriched.readTime,
-        jsonLd: enriched.jsonLd,
+        jsonLd: enriched.jsonLd as any,
       },
     })
 

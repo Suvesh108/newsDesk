@@ -1,11 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { SearchBar } from '@/components/public/SearchBar'
-import { Article } from '@/types/article'
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams()
   const query = searchParams?.get('q') || ''
 
@@ -33,5 +32,13 @@ export default function SearchPage() {
         </section>
       )}
     </div>
+  )
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="max-w-[1440px] mx-auto min-h-screen p-10">Loading search...</div>}>
+      <SearchContent />
+    </Suspense>
   )
 }

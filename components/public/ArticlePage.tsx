@@ -113,10 +113,10 @@ export function ArticlePage({ article, onBack }: ArticlePageProps) {
 
           <div className="col-span-12 lg:col-span-6 lg:col-start-4">
             <div className="prose-brutalist article-content">
-              {article.content.includes('<') ? (
-                <div className="article-html" dangerouslySetInnerHTML={{ __html: article.content }} />
+              {(article.content || '').includes('<') ? (
+                <div className="article-html" dangerouslySetInnerHTML={{ __html: article.content || '' }} />
               ) : (
-                article.content.split('\n\n').map((p, i) => {
+                (article.content || '').split('\n\n').map((p, i) => {
                   if (p.startsWith('## ')) return <h2 key={i} className="text-3xl lg:text-5xl text-primary mt-12 lg:mt-16 mb-6 lg:mb-8">{p.replace('## ', '')}</h2>
                   if (p.startsWith('> ')) return <blockquote key={i} className="my-12 lg:my-16 pl-6 lg:pl-10 border-l-8 border-primary font-display text-2xl lg:text-4xl leading-tight uppercase font-black">{p.replace('> ', '')}</blockquote>
                   return <p key={i} className="mb-6 lg:mb-10 text-lg lg:text-xl leading-relaxed opacity-80">{p}</p>

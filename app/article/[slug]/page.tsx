@@ -4,7 +4,7 @@ import { SEOHead } from '@/components/shared/SEOHead'
 import { notFound } from 'next/navigation'
 
 interface ArticlePageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 const sampleArticles: Record<string, Article> = {
@@ -80,7 +80,8 @@ Despite these limitations, there's reason for optimism. Algorithmic efficiency i
   },
 }
 
-export default function ArticleDetailPage({ params }: ArticlePageProps) {
+export default async function ArticleDetailPage(props: ArticlePageProps) {
+  const params = await props.params
   const article = sampleArticles[params.slug]
 
   if (!article) {
@@ -90,7 +91,8 @@ export default function ArticleDetailPage({ params }: ArticlePageProps) {
   return <ArticlePage article={article} />
 }
 
-export function generateMetadata({ params }: ArticlePageProps) {
+export async function generateMetadata(props: ArticlePageProps) {
+  const params = await props.params
   const article = sampleArticles[params.slug]
   if (!article) return {}
 
